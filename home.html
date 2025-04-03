@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Premium</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e50914;
+            --primary-dark: #b2070f;
+            --dark: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #757575;
+            --text-light: #f5f5f5;
+            --text-lighter: #ffffff;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-gray);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        /* Header/Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(0, 0, 0, 0.95);
+            padding: 15px 5%;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            transition: var(--transition);
+        }
+
+        .logo:hover img {
+            transform: scale(1.05);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 1px solid var(--text-light);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            min-height: 700px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.9) 100%),
+                        url('https://assets.nflxext.com/ffe/siteui/vlv3/93c34f94-56c8-40a7-8b2e-b4aac6427977/GB-en-20210125-popsignuptwoweeks-perspective_alpha_website_large.jpg') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            transform: translateY(50px);
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.3s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .hero-section p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+            font-weight: 300;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .hero-cta .btn {
+            padding: 12px 24px;
+            font-size: 1.1rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 80px 5%;
+            position: relative;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .section-title:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            height: 80%;
+            width: 4px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .section-controls button {
+            background-color: var(--medium-gray);
+            color: var(--text-light);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .section-controls button:hover {
+            background-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .movie-carousel {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 10px 0;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .movie-carousel::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .movie {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 0 0 auto;
+            width: 250px;
+            height: 375px;
+            background-color: var(--dark-gray);
+        }
+
+        .movie:hover {
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .movie:hover .movie-poster {
+            opacity: 0.3;
+        }
+
+        .movie-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .movie:hover .movie-overlay {
+            opacity: 1;
+        }
+
+        .movie-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .movie-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .movie-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #ffc107;
+        }
+
+        .movie-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .movie-actions button {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .movie-actions button:hover {
+            background-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* Featured Section */
+        .featured-section {
+            position: relative;
+            padding: 100px 5%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            overflow: hidden;
+        }
+
+        .featured-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .featured-poster {
+            flex: 0 0 40%;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transform: perspective(1000px) rotateY(-10deg);
+            transition: var(--transition);
+        }
+
+        .featured-poster:hover {
+            transform: perspective(1000px) rotateY(-5deg) scale(1.02);
+        }
+
+        .featured-poster img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .featured-details {
+            flex: 1;
+        }
+
+        .featured-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .featured-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .featured-year {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .featured-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #ffc107;
+        }
+
+        .featured-duration {
+            color: var(--light-gray);
+        }
+
+        .featured-description {
+            margin-bottom: 30px;
+            line-height: 1.7;
+            color: var(--text-light);
+        }
+
+        .featured-genres {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .genre-tag {
+            background-color: var(--medium-gray);
+            color: var(--text-light);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .genre-tag:hover {
+            background-color: var(--primary);
+        }
+
+        .featured-cta {
+            display: flex;
+            gap: 15px;
+        }
+
+        .featured-cta .btn {
+            padding: 12px 24px;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            padding: 80px 5% 40px;
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            margin-bottom: 30px;
+        }
+
+        .footer-logo img {
+            height: 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column ul li a {
+            color: var(--light-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: var(--light-gray);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--medium-gray);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright {
+            color: var(--light-gray);
+            font-size: 0.85rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .featured-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .featured-poster {
+                flex: 0 0 auto;
+                width: 100%;
+                max-width: 500px;
+                transform: none;
+            }
+            
+            .featured-poster:hover {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 5%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-section p {
+                font-size: 1.2rem;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .movie {
+                width: 200px;
+                height: 300px;
+            }
+            
+            .featured-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .movie {
+                width: 160px;
+                height: 240px;
+            }
+            
+            .featured-title {
+                font-size: 1.8rem;
+            }
+            
+            .featured-meta {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body onload="checkAuth()">
+
+    <nav class="navbar" id="navbar">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix Logo">
+        </div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">TV Shows</a>
+                <a href="#">Movies</a>
+                <a href="#">New & Popular</a>
+                <a href="#">My List</a>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Avatar">
+                </div>
+                <button class="btn btn-primary" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Sign Out
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Unlimited entertainment, endless possibilities</h1>
+            <p>Stream the latest movies and TV shows, anywhere, anytime.</p>
+            <div class="hero-cta">
+                <button class="btn btn-primary">
+                    <i class="fas fa-play"></i> Watch Now
+                </button>
+                <button class="btn btn-outline">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">Continue Watching</h2>
+            <div class="section-controls">
+                <button class="carousel-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        <div class="movie-carousel">
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg" alt="Stranger Things" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">Stranger Things</div>
+                    <div class="movie-info">
+                        <span>Season 4</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.7
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/wHa6KOJAoNTFLFtp7wguUJKSnju.jpg" alt="The Witcher" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">The Witcher</div>
+                    <div class="movie-info">
+                        <span>Season 2</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.2
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg" alt="The Queen's Gambit" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">The Queen's Gambit</div>
+                    <div class="movie-info">
+                        <span>Limited Series</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.6
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/rSPw7tgCH9c6NqICZef4kZjFOQ5.jpg" alt="Bridgerton" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">Bridgerton</div>
+                    <div class="movie-info">
+                        <span>Season 2</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 7.3
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/6kbAMLteGO8yyewYau6bJ683sw7.jpg" alt="Money Heist" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">Money Heist</div>
+                    <div class="movie-info">
+                        <span>Part 5</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.3
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/34FaY8qpjBAVysSfrJ1l7nrAQaD.jpg" alt="Dark" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">Dark</div>
+                    <div class="movie-info">
+                        <span>Season 3</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.8
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-section">
+        <div class="featured-content">
+            <div class="featured-poster">
+                <span class="featured-badge">New Release</span>
+                <img src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg" alt="Spider-Man: No Way Home">
+            </div>
+            <div class="featured-details">
+                <h1 class="featured-title">Spider-Man: No Way Home</h1>
+                <div class="featured-meta">
+                    <span class="featured-year">2021</span>
+                    <span class="featured-rating">
+                        <i class="fas fa-star"></i> 8.3
+                    </span>
+                    <span class="featured-duration">2h 28m</span>
+                </div>
+                <p class="featured-description">
+                    Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.
+                </p>
+                <div class="featured-genres">
+                    <span class="genre-tag">Action</span>
+                    <span class="genre-tag">Adventure</span>
+                    <span class="genre-tag">Sci-Fi</span>
+                </div>
+                <div class="featured-cta">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-play"></i> Play Now
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-plus"></i> My List
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">Popular on Netflix</h2>
+            <div class="section-controls">
+                <button class="carousel-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        <div class="movie-carousel">
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg" alt="The Batman" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">The Batman</div>
+                    <div class="movie-info">
+                        <span>2022</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 7.9
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/6DrHO1jr3qVrViUO6s6kFiAGM7.jpg" alt="Shang-Chi" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">Shang-Chi</div>
+                    <div class="movie-info">
+                        <span>2021</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 7.5
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/1BIoJGKbXjdFDAqUEiA2VHqkK1Z.jpg" alt="No Time to Die" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">No Time to Die</div>
+                    <div class="movie-info">
+                        <span>2021</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 7.3
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/6sJcVzGCwrDCBMV0DU6eRzA2UxM.jpg" alt="Dune" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">Dune</div>
+                    <div class="movie-info">
+                        <span>2021</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 7.9
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/3G1Q5xF40HkUBJXxt2DQgQzKTp5.jpg" alt="Inception" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">Inception</div>
+                    <div class="movie-info">
+                        <span>2010</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.4
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg" alt="Parasite" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">Parasite</div>
+                    <div class="movie-info">
+                        <span>2019</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.5
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-header">
+            <h2 class="section-title">My List</h2>
+            <div class="section-controls">
+                <button class="carousel-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        <div class="movie-carousel">
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/6JjfSchsU6daXk2AKX8EEBjO3Fm.jpg" alt="The Irishman" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">The Irishman</div>
+                    <div class="movie-info">
+                        <span>2019</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 7.8
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/6XYLiMxHAaCsoyrVo38LBWMw2p8.jpg" alt="The Crown" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">The Crown</div>
+                    <div class="movie-info">
+                        <span>Season 4</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.6
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://resizing.flixster.com/0CXOWExVOTxLqU9UNf8yUcRfZzk=/ems.cHJkLWVtcy1hc3NldHMvdHZzZWFzb24vNjA1YzVmYjUtMmE3NC00NjM0LWI0M2QtMGM1YmViZmEwZDY2LmpwZw==" alt="Ozark" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">Ozark</div>
+                    <div class="movie-info">
+                        <span>Season 4</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.4
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/34nDCQZwaEvsy4CFO5hkGRFDCVU.jpg" alt="The Mandalorian" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">The Mandalorian</div>
+                    <div class="movie-info">
+                        <span>Season 2</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.5
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/5qhtTPWNqzM1eo9QIIf5cyIUeAA.jpg" alt="The Matrix" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">The Matrix</div>
+                    <div class="movie-info">
+                        <span>1999</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.7
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="movie">
+                <img src="https://image.tmdb.org/t/p/w500/5Zv5KmgZzdIvXz2KC3n0MyecSNL.jpg" alt="The Lord of the Rings" class="movie-poster">
+                <div class="movie-overlay">
+                    <div class="movie-title">The Lord of the Rings</div>
+                    <div class="movie-info">
+                        <span>2001</span>
+                        <span class="movie-rating">
+                            <i class="fas fa-star"></i> 8.8
+                        </span>
+                    </div>
+                    <div class="movie-actions">
+                        <button><i class="fas fa-play"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                        <button><i class="fas fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix Logo">
+            </div>
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Jobs</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Investor Relations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Help Center</h3>
+                    <ul>
+                        <li><a href="#">Account</a></li>
+                        <li><a href="#">Plans</a></li>
+                        <li><a href="#">Supported Devices</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Cookie Preferences</a></li>
+                        <li><a href="#">Corporate Information</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">YouTube</a></li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2023 Netflix Premium. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function checkAuth() {
+            const user = localStorage.getItem("user");
+            const navRight = document.querySelector(".nav-right");
+
+            if (user) {
+                // User is logged in, show user menu
+                navRight.innerHTML = `
+                    <div class="nav-links">
+                        <a href="#">Home</a>
+                        <a href="#">TV Shows</a>
+                        <a href="#">Movies</a>
+                        <a href="#">New & Popular</a>
+                        <a href="#">My List</a>
+                    </div>
+                    <div class="user-menu">
+                        <div class="user-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Avatar">
+                        </div>
+                        <button class="btn btn-primary" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Sign Out
+                        </button>
+                    </div>
+                `;
+            } else {
+                // User is not logged in, show login buttons
+                navRight.innerHTML = `
+                    <button class="btn btn-outline" onclick="window.location.href='login.html'">
+                        Sign In
+                    </button>
+                    <button class="btn btn-primary" onclick="window.location.href='register.html'">
+                        Register
+                    </button>
+                `;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("user");
+            window.location.href = "home.html";
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Carousel controls
+        document.querySelectorAll('.carousel-prev').forEach(button => {
+            button.addEventListener('click', function() {
+                const carousel = this.closest('.section-header').nextElementSibling;
+                carousel.scrollBy({ left: -300, behavior: 'smooth' });
+            });
+        });
+
+        document.querySelectorAll('.carousel-next').forEach(button => {
+            button.addEventListener('click', function() {
+                const carousel = this.closest('.section-header').nextElementSibling;
+                carousel.scrollBy({ left: 300, behavior: 'smooth' });
+            });
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.content-section, .featured-section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                section.style.opacity = 0;
+                section.style.transform = 'translateY(50px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>
