@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://assets.nflxext.com/ffe/siteui/vlv3/757ab38f-5d08-40bc-b3eb-eaba63ed8203/93c34f94-56c8-40a7-8b2e-b4aac6427977/GB-en-20210125-popsignuptwoweeks-perspective_alpha_website_medium.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 167px;
+    height: 45px;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+}
+
+.register-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 60px 68px 40px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 450px;
+    min-width: 300px;
+    margin-top: 30px;
+}
+
+.register-container h2 {
+    margin-bottom: 28px;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+#registerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input-group {
+    position: relative;
+}
+
+#registerForm input {
+    padding: 16px 20px;
+    border-radius: 4px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    width: 100%;
+}
+
+#registerForm input:focus {
+    background-color: #454545;
+}
+
+#registerForm input::placeholder {
+    color: #8c8c8c;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #8c8c8c;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.toggle-password:hover {
+    color: #fff;
+}
+
+#registerForm button[type="submit"] {
+    padding: 16px;
+    border-radius: 4px;
+    border: none;
+    background-color: #e50914;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: background-color 0.2s;
+}
+
+#registerForm button[type="submit"]:hover {
+    background-color: #f6121d;
+}
+
+#responseMessage {
+    margin-top: 16px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-link {
+    color: #737373;
+    margin-top: 16px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.login-link a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+    .logo {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .register-container {
+        padding: 40px 20px;
+        margin: 80px 20px 0;
+    }
+    
+    .register-container h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+}
