@@ -15,6 +15,7 @@
     font-family: 'Open Sans', sans-serif;
 }
 
+
 body {
     background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://assets.nflxext.com/ffe/siteui/vlv3/757ab38f-5d08-40bc-b3eb-eaba63ed8203/93c34f94-56c8-40a7-8b2e-b4aac6427977/GB-en-20210125-popsignuptwoweeks-perspective_alpha_website_medium.jpg');
     background-size: cover;
@@ -190,75 +191,80 @@ body {
 
     <script>
         // Toggle password visibility
-        document.querySelectorAll('.toggle-password').forEach(button => {
-            button.addEventListener('click', function() {
-                const input = this.parentElement.querySelector('input');
-                const icon = this.querySelector('i');
-                
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    icon.classList.replace('fa-eye', 'fa-eye-slash');
-                    this.setAttribute('aria-label', 'Hide password');
-                } else {
-                    input.type = 'password';
-                    icon.classList.replace('fa-eye-slash', 'fa-eye');
-                    this.setAttribute('aria-label', 'Show password');
-                }
-            });
+    document.querySelectorAll('.toggle-password').forEach(button => {
+    button.addEventListener('click', function() {
+        const input = this.parentElement.querySelector('input');
+        const icon = this.querySelector('i');
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+            this.setAttribute('aria-label', 'Hide password');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+            this.setAttribute('aria-label', 'Show password');
+        }
+    });
+});
+
+document.getElementById("registerForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const fullname = document.getElementById("fullname").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm_password").value;
+    const responseMessage = document.getElementById("responseMessage");
+
+    // Password Validation
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+        responseMessage.innerText = "Password must be at least 8 characters with uppercase, lowercase, number, and special character.";
+        responseMessage.style.color = "#e50914";
+        return;
+    }
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        responseMessage.innerText = "Passwords do not match!";
+        responseMessage.style.color = "#e50914";
+        return;
+    }
+
+    const requestData = { fullname, email, password };
+    
+    try {
+        const response = await fetch("https://hichy999.app.n8n.cloud/webhook/NetflixRegister", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestData)
         });
 
-        document.getElementById("registerForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
+        const data = await response.json();
+        
+        if (data.exists) {
+            responseMessage.innerText = "Email already exists!";
+            responseMessage.style.color = "#e50914";
+        } else if (data.success) {
+            // ✅ Store user details in localStorage for verification step
+            localStorage.setItem("verifyFullname", fullname);
+            localStorage.setItem("verifyEmail", email);
+            localStorage.setItem("verifyPassword", password);
+            
+            // ✅ Redirect to verification page
+            window.location.href = "verify.html"; 
+        } else {
+            responseMessage.innerText = "Registration failed!";
+            responseMessage.style.color = "#e50914";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        responseMessage.innerText = "Error: Could not connect to server.";
+        responseMessage.style.color = "#e50914";
+    }
+});
 
-            const fullname = document.getElementById("fullname").value;
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirm_password").value;
-            const responseMessage = document.getElementById("responseMessage");
-
-            // Password Validation
-            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/;
-            if (!passwordRegex.test(password)) {
-                responseMessage.innerText = "Password must be at least 8 characters, with an uppercase letter, lowercase letter, number, and special character.";
-                responseMessage.style.color = "#e50914";
-                return;
-            }
-
-            // Check if passwords match
-            if (password !== confirmPassword) {
-                responseMessage.innerText = "Passwords do not match!";
-                responseMessage.style.color = "#e50914";
-                return;
-            }
-
-            const requestData = { fullname, email, password };
-            console.log(requestData);
-            try {
-                const response = await fetch("https://hichy999.app.n8n.cloud/webhook/NetflixRegister", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(requestData)
-                });
-
-                const data = await response.json();
-                 // Debugging: Check what n8n sends back
-
-                if (data.exists) {
-                    responseMessage.innerText = "Email already exists!";
-                    responseMessage.style.color = "#e50914";
-                } else {
-                    localStorage.setItem("user", JSON.stringify(data.user));
-                    window.location.href = "home.html"; // Redirect to Home
-                    
-                    responseMessage.innerText = "Registration successful!";
-                    responseMessage.style.color = "#5fa053";
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                responseMessage.innerText = "Error: Could not connect to server.";
-                responseMessage.style.color = "#e50914";
-            }
-        });
     </script>
 </body>
 </html>
